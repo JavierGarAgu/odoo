@@ -1,0 +1,253 @@
+<odoo>
+    <!-- vista para la lista de clientes -->
+    <record id="view_clientes_list" model="ir.ui.view">
+        <field name="name">taller.clientes.list</field>
+        <field name="model">taller.clientes</field>
+        <field name="arch" type="xml">
+            <list>
+                <!-- mostramos el nombre del cliente con formato bold (negrita) -->
+                <field name="name" decoration-bf="True"/>
+                <!-- mostramos el teléfono, si no tiene, aparece en verde -->
+                <field name="telefono" decoration-success="telefono != False"/>
+                <!-- si el cliente tiene coches asociados, lo marcamos en rojo -->
+                <field name="chasis_ids" decoration-danger="chasis_ids &gt; 0"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- vista en kanban para los clientes -->
+    <record id="view_clientes_kanban" model="ir.ui.view">
+        <field name="name">taller.clientes.kanban</field>
+        <field name="model">taller.clientes</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="telefono"/>
+                <field name="chasis_ids"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <!-- para cada cliente en el kanban mostramos su nombre en negrita -->
+                        <div class="oe_kanban_global_click">
+                            <div>
+                                <strong>
+                                    <field name="name" decoration-bf="True"/>
+                                </strong>
+                            </div>
+                            <div>
+                                <!-- si tiene teléfono lo mostramos en verde -->
+                                <field name="telefono" decoration-success="telefono != False"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- acción para acceder a la lista de clientes -->
+    <record id="action_clientes" model="ir.actions.act_window">
+        <field name="name">Clientes</field>
+        <field name="res_model">taller.clientes</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="view_id" ref="view_clientes_list"/>
+    </record>
+
+    <!-- vista para la lista de coches -->
+    <record id="view_coches_list" model="ir.ui.view">
+        <field name="name">taller.coches.list</field>
+        <field name="model">taller.coches</field>
+        <field name="arch" type="xml">
+            <list>
+                <!-- nombre del coche en negrita -->
+                <field name="name" decoration-bf="True"/>
+                <!-- matrícula en verde si tiene valor -->
+                <field name="matricula" decoration-success="matricula != False"/>
+                <!-- si el coche es un "Sedan", lo marcamos en rojo -->
+                <field name="modelo" decoration-danger="modelo == 'Sedan'"/>
+                <!-- mostramos si necesita mantenimiento -->
+                <field name="mantenimiento_requerido"/>
+                <!-- mostramos los servicios asociados -->
+                <field name="servicios_ids"/>
+                <!-- mostramos el cliente asociado -->
+                <field name="cliente_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- vista kanban para los coches -->
+    <record id="view_coches_kanban" model="ir.ui.view">
+        <field name="name">taller.coches.kanban</field>
+        <field name="model">taller.coches</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="matricula"/>
+                <field name="modelo"/>
+                <field name="mantenimiento_requerido"/>
+                <field name="servicios_ids"/>
+                <field name="cliente_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div>
+                                <strong>
+                                    <field name="name" decoration-bf="True"/>
+                                </strong>
+                            </div>
+                            <div>
+                                <!-- matrícula en verde si tiene valor -->
+                                <field name="matricula" decoration-success="matricula != False"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- acción para acceder a la lista de coches -->
+    <record id="action_coches" model="ir.actions.act_window">
+        <field name="name">Coches</field>
+        <field name="res_model">taller.coches</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="view_id" ref="view_coches_list"/>
+    </record>
+
+    <!-- vista para la lista de servicios -->
+    <record id="view_servicios_list" model="ir.ui.view">
+        <field name="name">taller.servicios.list</field>
+        <field name="model">taller.servicios</field>
+        <field name="arch" type="xml">
+            <list>
+                <!-- nombre del servicio en negrita -->
+                <field name="name" decoration-bf="True"/>
+                <!-- tipo de servicio, si es "Mantenimiento", lo mostramos en verde -->
+                <field name="tipo" decoration-success="tipo == 'Mantenimiento'"/>
+                <!-- si el presupuesto es mayor que 1000, lo mostramos en rojo -->
+                <field name="presupuesto" decoration-danger="presupuesto &gt; 1000"/>
+                <!-- fecha del próximo servicio -->
+                <field name="proxima"/>
+                <!-- piezas asociadas al servicio -->
+                <field name="piezas_ids"/>
+                <!-- coche asociado al servicio -->
+                <field name="coche_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_servicios_form" model="ir.ui.view">
+    <field name="name">taller.servicios.form</field>
+    <field name="model">taller.servicios</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="tipo"/>
+                    <field name="presupuesto"/>
+                    <field name="proxima" invisible="oculto == True" readonly="1"/>
+                    <field name="piezas_ids"/>
+                    <field name="coche_id"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <!-- vista kanban para los servicios -->
+    <record id="view_servicios_kanban" model="ir.ui.view">
+        <field name="name">taller.servicios.kanban</field>
+        <field name="model">taller.servicios</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="tipo"/>
+                <field name="presupuesto"/>
+                <field name="proxima"/>
+                <field name="piezas_ids"/>
+                <field name="coche_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div>
+                                <strong>
+                                    <field name="name" decoration-bf="True"/>
+                                </strong>
+                            </div>
+                            <div>
+                                <!-- si el tipo es "Mantenimiento", lo mostramos en verde -->
+                                <field name="tipo" decoration-success="tipo == 'Mantenimiento'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- acción para acceder a la lista de servicios -->
+    <record id="action_servicios" model="ir.actions.act_window">
+        <field name="name">Servicios</field>
+        <field name="res_model">taller.servicios</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="view_id" ref="view_servicios_list"/>
+    </record>
+
+    <!-- vista para la lista de piezas -->
+    <record id="view_piezas_list" model="ir.ui.view">
+        <field name="name">taller.piezas.list</field>
+        <field name="model">taller.piezas</field>
+        <field name="arch" type="xml">
+            <list>
+                <!-- nombre de la pieza en negrita -->
+                <field name="name" decoration-bf="True"/>
+                <!-- tipo de pieza, si es "Repuesto", lo mostramos en verde -->
+                <field name="tipo" decoration-success="tipo == 'Repuesto'"/>
+                <!-- si tiene un servicio asociado, lo mostramos en rojo -->
+                <field name="servicio_id" decoration-danger="servicio_id != False"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- vista kanban para las piezas -->
+    <record id="view_piezas_kanban" model="ir.ui.view">
+        <field name="name">taller.piezas.kanban</field>
+        <field name="model">taller.piezas</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="tipo"/>
+                <field name="servicio_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div>
+                                <strong>
+                                    <field name="name" decoration-bf="True"/>
+                                </strong>
+                            </div>
+                            <div>
+                                <!-- si el tipo es "Repuesto", lo mostramos en verde -->
+                                <field name="tipo" decoration-success="tipo == 'Repuesto'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- acción para acceder a la lista de piezas -->
+    <record id="action_piezas" model="ir.actions.act_window">
+        <field name="name">Piezas</field>
+        <field name="res_model">taller.piezas</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="view_id" ref="view_piezas_list"/>
+    </record>
+
+    <!-- menús principales -->
+    <menuitem id="menu_root" name="TALLER"/>
+    <menuitem id="menu_clientes" name="Clientes" parent="menu_root" action="action_clientes"/>
+    <menuitem id="menu_coches" name="Coches" parent="menu_root" action="action_coches"/>
+    <menuitem id="menu_servicios" name="Servicios" parent="menu_root" action="action_servicios"/>
+    <menuitem id="menu_piezas" name="Piezas" parent="menu_root" action="action_piezas"/>
+</odoo>

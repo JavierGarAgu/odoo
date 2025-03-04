@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- este template es para el reporte de clientes, asi que vamos a mostrar la info del cliente -->
+    <template id="template_clientes">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o"> <!-- aqui recorremos todos los clientes -->
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Reporte de Clientes del Taller</h2>
+                        
+                        <!-- mostramos el nombre del cliente -->
+                        <p><strong>Nombre del cliente:</strong> <t t-esc="o.name"/></p>
+                        <!-- mostramos el telefono, si no hay telefono, ponemos 'no disponible' -->
+                        <p><strong>Teléfono:</strong> <t t-esc="o.telefono or 'No disponible'"/></p>
+
+                        <!-- si el cliente tiene coches asociados -->
+                        <t t-if="o.chasis_ids">
+                            <h3>Coches asociados:</h3>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Chasis</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- para cada coche asociado al cliente, mostramos el número de chasis -->
+                                    <t t-foreach="o.chasis_ids" t-as="chasis">
+                                        <tr>
+                                            <td><t t-esc="chasis.name"/></td> <!-- aqui mostramos el nombre del coche, asumiendo que 'name' es el campo -->
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <!-- si no tiene coches asociados, lo decimos aqui -->
+                            <p>No hay coches asociados.</p>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ahora el template para el reporte de servicios -->
+    <template id="template_servicios">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o"> <!-- recorremos todos los servicios -->
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Reporte de Servicio</h2>
+                        
+                        <!-- mostramos el numero de servicio -->
+                        <p><strong>Numero de Servicio:</strong> <t t-esc="o.name"/></p>
+                        <!-- mostramos el tipo de servicio, dependiendo del valor de 'tipo' -->
+                        <p><strong>Tipo de Servicio:</strong> 
+                            <t t-if="o.tipo == '1'">Mantenimiento anual</t>
+                            <t t-if="o.tipo == '2'">Avería</t>
+                            <t t-if="o.tipo == '3'">Mejora</t>
+                        </p>
+                        <!-- mostramos el presupuesto -->
+                        <p><strong>Presupuesto:</strong> <t t-esc="o.presupuesto"/></p>
+                        <!-- mostramos la fecha del próximo servicio -->
+                        <p><strong>Próximo Servicio:</strong> <t t-esc="o.proxima"/></p>
+
+                        <!-- si el servicio tiene piezas asociadas -->
+                        <h3>Piezas asociadas al servicio:</h3>
+                        <t t-if="o.piezas_ids">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre de la pieza</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- para cada pieza asociada al servicio, mostramos su nombre -->
+                                    <t t-foreach="o.piezas_ids" t-as="pieza">
+                                        <tr>
+                                            <td><t t-esc="pieza.name"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <!-- si no tiene piezas asociadas, lo decimos aqui -->
+                            <p>No hay piezas asociadas al servicio.</p>
+                        </t>
+
+                        <!-- ahora mostramos el coche asociado al servicio -->
+                        <h3>Coche asociado al servicio:</h3>
+                        <p><strong>Chasis:</strong> <t t-esc="o.coche_id.name"/></p>
+                        <p><strong>Matricula:</strong> <t t-esc="o.coche_id.matricula"/></p>
+                        <p><strong>Modelo:</strong> <t t-esc="o.coche_id.modelo"/></p>
+                        <!-- mostramos el nombre del cliente asociado al coche -->
+                        <p><strong>Cliente:</strong> <t t-esc="o.coche_id.cliente_id.name"/> <!-- Cliente relacionado con el coche --></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

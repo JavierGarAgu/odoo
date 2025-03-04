@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_taller_vehiculos_taller_clientes,taller.clientes,model_taller_clientes,base.group_user,1,1,1,1
+access_taller_coches,taller.coches,model_taller_coches,base.group_user,1,1,1,1
+access_taller_servicios,taller.servicios,model_taller_servicios,base.group_user,1,0,0,0
+access_taller_piezas,taller.piezas,model_taller_piezas,base.group_user,1,0,0,0
+access_taller_vehiculos_taller_cliente2,taller.clientes,model_taller_clientes,base.group_system,1,0,0,0
+access_taller_coches2,taller.coches,model_taller_coches,base.group_system,1,0,0,0
+access_taller_servicios2,taller.servicios,model_taller_servicios,base.group_system,1,1,1,1
+access_taller_piezas2,taller.piezas,model_taller_piezas,base.group_system,1,1,1,1
+
+

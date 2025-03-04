@@ -1,0 +1,20 @@
+<odoo>
+    <!-- este es el reporte de clientes, sirve para generar el reporte en pdf de los clientes -->
+    <record id="reporte_clientes" model="ir.actions.report">
+        <field name="name">Clientes</field> <!-- nombre del reporte, va a salir como título -->
+        <field name="model">taller.clientes</field> <!-- el modelo para el cual generamos el reporte -->
+        <field name="report_type">qweb-pdf</field> <!-- tipo de reporte, en este caso es pdf con qweb -->
+        <field name="report_name">taller_vehiculos.template_clientes</field> <!-- la plantilla que usamos para el reporte de clientes -->
+        <field name="report_file">taller_vehiculos.template_clientes</field> <!-- el archivo de la plantilla -->
+    </record>
+
+    <!-- este es el reporte de los servicios, parecido al de clientes pero con los servicios -->
+    <record id="reporte_servicios" model="ir.actions.report">
+        <field name="name">Reporte de Servicios</field> <!-- nombre del reporte -->
+        <field name="model">taller.servicios</field>  <!-- el modelo, en este caso servicios -->
+        <field name="report_type">qweb-pdf</field> <!-- tipo de reporte en pdf -->
+        <field name="report_name">taller_vehiculos.template_servicios</field> <!-- plantilla del reporte para los servicios -->
+        <field name="report_file">taller_vehiculos.template_servicios</field> <!-- archivo de la plantilla del reporte -->
+    </record>
+</odoo>
+
